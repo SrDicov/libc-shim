@@ -1,11 +1,12 @@
 #include "no-fortify.h"
 #include "statvfs.h"
+#include "iorewrite.h"
 
 using namespace shim;
 
 int shim::statvfs(const char *path, struct vfs *buf) {
     struct ::statvfs tmp = {};
-    int ret = ::statvfs(path, &tmp);
+    int ret = ::statvfs(iorewrite0(path).data(), &tmp);
     buf->f_bsize = tmp.f_bsize;
     buf->f_frsize = tmp.f_frsize;
     buf->f_blocks = tmp.f_blocks;
@@ -23,6 +24,7 @@ int shim::statvfs(const char *path, struct vfs *buf) {
 
 void shim::add_statvfs_shimmed_symbols(std::vector<shimmed_symbol> &list) {
     list.insert(list.end(), {
-        {"statvfs", statvfs}
+        {"statvfs", statvfs},
+        {"statvfs64", statvfs}
     });
 }
