@@ -74,6 +74,7 @@
 #include "iorewrite.h"
 #include "armhfrewrite.h"
 #include "statvfs.h"
+#include "statfs.h"
 #include "variadic.h"
 #include <chrono>
 #include <unistd.h>
