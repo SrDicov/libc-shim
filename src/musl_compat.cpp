@@ -1,10 +1,15 @@
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
+#include <errno.h>
 #include <locale.h>
 #include <sys/socket.h>
 
 extern "C" {
+
+const char *getprogname(void) {
+    return program_invocation_short_name;
+}
 
 char *strptime_l(const char *buf, const char *fmt, struct tm *tm) {
     return strptime(buf, fmt, tm);
