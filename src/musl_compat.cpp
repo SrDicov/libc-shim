@@ -2,9 +2,15 @@
 #include <cstring>
 #include <ctime>
 #include <locale.h>
+#include <assert.h>
 #include <sys/socket.h>
 
 extern "C" {
+
+/* glibc-internal assert helper, not provided by musl */
+void __assert(const char *expr, const char *file, int line) {
+    __assert_fail(expr, file, line, NULL);
+}
 
 char *strptime_l(const char *buf, const char *fmt, struct tm *tm) {
     return strptime(buf, fmt, tm);
