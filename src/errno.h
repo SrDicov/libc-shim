@@ -55,8 +55,8 @@ namespace shim {
                     bionic::sync_errno();
                     return Ptr(args...);
                 } catch(std::exception& err) {
-                    ::fprintf(::stderr, "libc-shim runtime error at %s: %s\n", __PRETTY_FUNCTION__, err.what());
-                    ::fflush(::stderr);
+                    ::fprintf(stderr, "libc-shim runtime error at %s: %s\n", __PRETTY_FUNCTION__, err.what());
+                    ::fflush(stderr);
                     errno = EINVAL;
                     if constexpr(std::is_pointer_v<Ret>) {
                         return (Ret)NULL;

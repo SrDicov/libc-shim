@@ -98,8 +98,8 @@ void shim::handle_runtime_error(const char *fmt, ...) {
     va_start(l, fmt);
     ::vsnprintf(buf, sizeof(buf), fmt, l);
     va_end(l);
-    ::fprintf(::stderr, "libc-shim runtime error: %s\ns", buf);
-    ::fflush(::stderr);
+    ::fprintf(stderr, "libc-shim runtime error: %s\ns", buf);
+    ::fflush(stderr);
     throw std::runtime_error(std::string(buf));
 };
 

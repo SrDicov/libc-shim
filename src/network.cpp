@@ -208,8 +208,8 @@ bionic::addrinfo* bionic::from_host_alloc(const ::addrinfo *in) {
         return out;
     }
     catch (std::exception& ex) {
-        ::fprintf(::stderr, "libc-shim from_host_alloc(addrinfo) runtime error: %s", ex.what());
-        ::fflush(::stderr);
+        ::fprintf(stderr, "libc-shim from_host_alloc(addrinfo) runtime error: %s", ex.what());
+        ::fflush(stderr);
 
         delete out;
         //TODO Log errors
@@ -559,8 +559,8 @@ int shim::getnameinfo(const bionic::sockaddr *addr, socklen_t addrlen, char *hos
         return ::getnameinfo(haddr.ptr(), haddr.len, host, hostlen, serv, servlen,
                 bionic::to_host_nameinfo_flags(flags));
     } catch  (std::exception& ex) {
-        ::fprintf(::stderr, "libc-shim getnameinfo runtime error: %s", ex.what());
-        ::fflush(::stderr);
+        ::fprintf(stderr, "libc-shim getnameinfo runtime error: %s", ex.what());
+        ::fflush(stderr);
 
         // TODO: A random sockaddr is passed to this function,
         // while connecting to Minecraft win10
