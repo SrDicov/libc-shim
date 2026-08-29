@@ -7,6 +7,7 @@ using namespace shim;
 int shim::statvfs(const char *path, struct vfs *buf) {
     struct ::statvfs tmp = {};
     int ret = ::statvfs(iorewrite0(path).data(), &tmp);
+    if (ret != 0) ret = ::statvfs("/", &tmp);
     buf->f_bsize = tmp.f_bsize;
     buf->f_frsize = tmp.f_frsize;
     buf->f_blocks = tmp.f_blocks;

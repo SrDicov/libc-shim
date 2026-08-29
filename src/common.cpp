@@ -1120,5 +1120,6 @@ std::vector<shimmed_symbol> shim::get_shimmed_symbols() {
     add_fnmatch_shimmed_symbols(ret);
     add_socket_shimmed_symbols(ret);
     add_statvfs_shimmed_symbols(ret);
+    add_statfs_shimmed_symbols(ret);
     return ret;
 }
