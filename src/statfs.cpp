@@ -2,13 +2,21 @@
 #include "statfs.h"
 #include "iorewrite.h"
 #include <cstring>
+#include <cstdio>
+#include <cstdlib>
+#include <string>
 
 using namespace shim;
 
 int shim::statfs(const char *path, struct statfs *buf) {
     struct ::statfs tmp = {};
-    int ret = ::statfs(iorewrite0(path).data(), &tmp);
+    std::string rp = iorewrite0(path);
+    int ret = ::statfs(rp.data(), &tmp);
     if (ret != 0) ret = ::statfs("/", &tmp);
+    if (std::getenv("TRINITY_DEBUG_STATFS")) {
+        fprintf(stderr, "[statfs-shim] path=%s rewritten=%s ret=%d blocks=%lu bfree=%lu bavail=%lu\n",
+                path, rp.c_str(), ret, (unsigned long)tmp.f_blocks, (unsigned long)tmp.f_bfree, (unsigned long)tmp.f_bavail);
+    }
     buf->f_type = tmp.f_type;
     buf->f_bsize = tmp.f_bsize;
     buf->f_blocks = tmp.f_blocks;
