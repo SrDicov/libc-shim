@@ -7,8 +7,8 @@
 #include <sys/statfs.h>
 
 namespace shim {
-    // Bionic statfs layout. On x86_64 LP64 this is identical in size/order to the
-    // host (musl/glibc) struct statfs, so we copy fields explicitly to be safe.
+    // Bionic statfs layout. On x86_64 LP64 this matches the host (musl/glibc)
+    // struct statfs field-for-field; f_fsid is copied via memcpy to be safe.
     struct statfs {
         unsigned long f_type;
         unsigned long f_bsize;
@@ -17,7 +17,7 @@ namespace shim {
         unsigned long f_bavail;
         unsigned long f_files;
         unsigned long f_ffree;
-        unsigned long f_fsid;
+        fsid_t f_fsid;
         unsigned long f_namelen;
         unsigned long f_frsize;
         unsigned long f_flags;
@@ -25,7 +25,6 @@ namespace shim {
     };
 
     int statfs(const char *path, struct statfs *buf);
-    int statfs64(const char *path, struct statfs *buf);
 
     void add_statfs_shimmed_symbols(std::vector<shimmed_symbol> &list);
 }
